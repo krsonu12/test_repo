@@ -59,6 +59,32 @@ def generate_loan_amortization_pdf():
             pdf.cell(col_widths[i], 8, row[i], 1, 0, "C")
         pdf.ln()
     
+    # Calculate summary information
+    total_principal = 100000.00  # Initial loan amount
+    total_interest = sum(float(row[2]) for row in data)
+    total_payment = total_principal + total_interest
+    
+    # Add summary section
+    pdf.ln(10)
+    pdf.set_font("Arial", "B", 11)
+    pdf.cell(0, 10, "Loan Summary", 0, 1, "L")
+    
+    pdf.set_font("Arial", "", 10)
+    pdf.cell(60, 8, "Loan Amount:", 0, 0)
+    pdf.cell(0, 8, f"Rs. {total_principal:.2f}", 0, 1)
+    
+    pdf.cell(60, 8, "Total Interest Paid:", 0, 0)
+    pdf.cell(0, 8, f"Rs. {total_interest:.2f}", 0, 1)
+    
+    pdf.cell(60, 8, "Total Amount Paid:", 0, 0)
+    pdf.cell(0, 8, f"Rs. {total_payment:.2f}", 0, 1)
+    
+    pdf.cell(60, 8, "Loan Term:", 0, 0)
+    pdf.cell(0, 8, "24 months (2 years)", 0, 1)
+    
+    pdf.cell(60, 8, "Interest Rate:", 0, 0)
+    pdf.cell(0, 8, "12% per annum", 0, 1)
+    
     # Save the PDF
     pdf.output("loan_amortization.pdf")
     
